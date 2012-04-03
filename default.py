@@ -23,18 +23,21 @@ xbmcplugin.setPluginFanart(int(__settings__.get_argv(1)), __fanart__)
 
 print '[PLUGIN] %s: version %s initialized!' % (__plugin__, __version__)
 
-def add_directory(title, key, id):
+def add_directory(title, key, id, icon='abc.png', fanart=None):
 	url = '%s?%s=%s' % (sys.argv[0], key, id)
-	icon = __settings__.get_path('resources/images/abc.png')
-	listitem = xbmcgui.ListItem(title, iconImage=icon)
-	listitem.setProperty('fanart_image', __fanart__)
+	icon = __settings__.get_path(('resources/images/%s' % icon))
+	listitem = xbmcgui.ListItem(title, iconImage=icon, thumbnailImage=icon)
+	if fanart != None and len(fanart) > 0:
+		listitem.setProperty('fanart_image', __settings__.get_path(('resources/images/%s' % fanart)))
+	else:	
+		listitem.setProperty('fanart_image', __fanart__)
 	ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=url, listitem=listitem, isFolder=True)
 
 def station_menu():
-	add_directory('ABC 1', 'category', 'abc1')
-	add_directory('ABC 2', 'category', 'abc2')
-	add_directory('ABC 3', 'category', 'abc3')
-	add_directory('ABC News 24', 'category', 'abc4')
+	add_directory('ABC 1', 'category', 'abc1', 'abc1.png', 'abc1bg.png')
+	add_directory('ABC 2', 'category', 'abc2', 'abc2.png', 'abc2bg.png')
+	add_directory('ABC 3', 'category', 'abc3', 'abc3.png', 'abc3bg.png')
+	add_directory('ABC News 24', 'category', 'abc4', 'abc24.png', 'abc24bg.png')
 	xbmcplugin.endOfDirectory(int(sys.argv[1]))
 
 def genre_menu():

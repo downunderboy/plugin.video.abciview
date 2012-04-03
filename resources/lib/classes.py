@@ -1,5 +1,4 @@
 import re
-import BeautifulSoup
 import utils
 import datetime
 import urllib
@@ -56,8 +55,14 @@ class Series(object):
 	def get_keywords(self):
 		""" Return a list of keywords
 		"""
-		return self.keywords
+		if self.keywords != None:
+			return (", ").join(self.keywords).title().replace('Abc1', 'ABC1').replace('Abc2', 'ABC2').replace('Abc3', 'ABC3').replace('Abc4', 'ABC4')
+		else:
+			return ''
 
+	def get_runtime(self):
+		return self.runtime
+	
 	def has_keyword(self, keyword):
 		""" Returns true if a keyword is found
 		"""
@@ -223,20 +228,13 @@ class Program(object):
 		url = "%s&%s=%s" % (url, "thumbnail", urllib.quote_plus(self.thumbnail)) 
 		return url
 
-	def remove_cdata(self, string):
-		new_string = re.findall('<!\[CDATA\[(.*?)\]\]>', string, re.DOTALL)
-		if new_string and len(new_string) > 0:
-			return new_string[0]
-		else:
-			return string
-
 	def parse_xbmc_url(self, string):
 		""" Takes a string input which is a URL representation of the 
 			program object
 		"""
 		d = utils.get_url(string)
 		self.title = d['title']
-		self.episode_title = self.remove_cdata(d['episode_title'])
+		self.episode_title = utils.remove_cdata(d['episode_title'])
 		self.description = d['description']
 		self.duration = d['duration']
 		self.category = d['category']

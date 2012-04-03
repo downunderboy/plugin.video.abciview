@@ -1,7 +1,6 @@
 import urllib2
 import config
 import parser
-import rc4
 
 cache = False
 

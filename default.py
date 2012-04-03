@@ -13,14 +13,12 @@ import resources.lib.xbmcsettings as settings
 
 # plugin constants
 __plugin__  = 'ABC iView'
-__author__  = 'Andy Botting'
-__url__     = 'http://xbmc-boxee-iview.googlecode.com'
-__svn_url__ = 'https://xbmc-boxee-iview.googlecode.com/svn/trunk/xbmc/plugin.video.abc_iview'
-__version__ = '1.0.1'
+__author__  = 'Andy Botting, Brian Hornsby'
 __credits__ = 'Team XBMC, Jeremy Visser, Noisymime'
 __addonid__ = 'plugin.video.abc_iview'
 __settings__ = settings.Settings(__addonid__, sys.argv)
-__fanart__ = os.path.join(__settings__.get_path(),'fanart.jpg')
+__version__ = __settings__.get_version()
+__fanart__ = os.path.join(__settings__.get_path(),'fanart.png')
 xbmcplugin.setPluginFanart(int(__settings__.get_argv(1)), __fanart__)
 
 print '[PLUGIN] %s: version %s initialized!' % (__plugin__, __version__)

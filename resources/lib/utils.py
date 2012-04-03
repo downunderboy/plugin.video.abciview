@@ -22,6 +22,14 @@ def descape(string):
 
 	return pattern.sub(descape_entity, string)
 
+
+def remove_cdata(string):
+	new_string = re.findall('<!\[CDATA\[(.*?)\]\]>', string, re.DOTALL)
+	if new_string and len(new_string) > 0:
+		return new_string[0]
+	else:
+		return string
+
 def get_url(s):
 	dict = {}
 	pairs = s.lstrip("?").split("&")

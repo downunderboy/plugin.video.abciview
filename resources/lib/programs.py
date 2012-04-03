@@ -40,5 +40,8 @@ def fill_media_list(programs):
 
 		# Add the program item to the list
 		ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=url, listitem=listitem, isFolder=False)
+		# if user cancels, call raise to exit loop
+		if (not ok): 
+			raise
 	xbmcplugin.setContent(handle=int(sys.argv[1]), content='episodes')
 	return ok

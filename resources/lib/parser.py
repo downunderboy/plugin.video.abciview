@@ -75,6 +75,29 @@ def parse_auth(soup, iview_config):
 		'free'            : (xml.find("free").string == "yes")
 	}
 
+def create_new_series(series):
+	new_series = classes.Series()
+	
+	#{u'a': u'9995608',
+	#	u'b': u'Wildscreen Series 1',
+	#	u'e': u'shopdownload',
+	#	u'f': [{u'a': u'9995608',
+	#			u'f': u'2010-05-30 00:00:00',
+	#			u'g': u'2010-07-17 00:00:00'}]
+	#}
+	
+	new_series.id = series['a']
+	new_series.title = series['b']
+	if 'c' in series:
+		new_series.plot = series['c']
+	if 'd' in series:
+		new_series.image = series['d']
+	new_series.keywords = series['e'].split(" ")
+	new_series.num_episodes = int(len(series['f']))
+
+	return new_series
+
+
 def parse_index(soup):
 	"""	This function parses the index, which is an overall listing
 		of all programs available in iView. The index is divided into
@@ -85,25 +108,7 @@ def parse_index(soup):
 	index = json.loads(soup)
 
 	for series in index:
-		new_series = classes.Series()
-
-		#{u'a': u'9995608',
-		#	u'b': u'Wildscreen Series 1',
-		#	u'e': u'shopdownload',
-		#	u'f': [{u'a': u'9995608',
-		#			u'f': u'2010-05-30 00:00:00',
-		#			u'g': u'2010-07-17 00:00:00'}]
-		#}
-
-		new_series.id = series['a']
-		new_series.title = series['b']
-		if 'c' in series:
-			new_series.plot = series['c']
-		if 'd' in series:
-			new_series.image = series['d']
-		new_series.keywords = series['e'].split(" ")
-		new_series.num_episodes = int(len(series['f']))
-	
+		new_series = create_new_series(series)	
 		# Only include a program if isn't a 'Shop Download'
 		if not new_series.has_keyword("shopdownload"):
 			print "ABC iView: Found series: %s" % (new_series.get_list_title())
@@ -237,11 +242,7 @@ def parse_category_series(category_soup, index_soup):
 
 		if id != -1:
 			for series in index:
-				new_series = classes.Series()
-				new_series.id = series['a']
-				new_series.title = series['b']
-				new_series.keywords = series['e'].split(" ")
-				new_series.num_episodes = int(len(series['f']))
+				new_series = create_new_series(series)
 
 				ok = False
 				for p in series['f']:
@@ -257,6 +258,14 @@ def parse_category_series(category_soup, index_soup):
 
 				if ok == True and not new_series.has_keyword("shopdownload"):
 					print "ABC iView: Found series: %s" % (new_series.get_list_title())
+					if new_series.get_image() == None or len(new_series.get_image()) == 0:
+						new_series.image = program.find('thumbnail').get('url')
+					if new_series.get_plot() == None or len(new_series.get_plot()) == 0:
+						description = program.find('description')
+						if description == None:
+							new_series.plot = ''
+						else:
+							new_series.plot = utils.remove_cdata(description.string)
 					if new_series.num_episodes > 0:
 						series_list.append(new_series)
 

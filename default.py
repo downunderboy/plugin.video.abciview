@@ -27,7 +27,7 @@ print '[PLUGIN] %s: version %s initialized!' % (__plugin__, __version__)
 
 def add_directory(title, key, id):
 	url = '%s?%s=%s' % (sys.argv[0], key, id)
-	icon = 'defaultfolder.png'
+	icon = __settings__.get_path('resources/images/abc.png')
 	listitem = xbmcgui.ListItem(title, iconImage=icon)
 	listitem.setProperty('fanart_image', __fanart__)
 	ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=url, listitem=listitem, isFolder=True)

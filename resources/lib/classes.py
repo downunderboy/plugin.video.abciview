@@ -72,7 +72,6 @@ class Series(object):
 		return False
 
 
-
 class Program(object):
 
 	def __init__(self):

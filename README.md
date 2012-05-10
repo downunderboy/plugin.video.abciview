@@ -26,6 +26,7 @@ Installation Instructions
 
 Third-party Libraries
 ---------------------
+- BeautifulSoup
 - simplejson
 
 License

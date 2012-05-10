@@ -31,22 +31,25 @@ class Settings:
 		self.__path__ = self.__addon__.getAddonInfo('path')
 		self.__version__ = self.__addon__.getAddonInfo('version')
 
-	def get_string(self, id):
-		return self.__addon__.getLocalizedString(id)
-
-	def get(self, key):
+	def __getitem__(self, key):
 		value = self.__addon__.getSetting(key)
 		if value.isdigit():
 			return int(value)
 		else:
 			return value
+	
+	def get_string(self, id):
+		return self.__addon__.getLocalizedString(id)
 
 	def get_argv(self, idx):
 		return self.__argv__[idx]
 
 	def get_datapath(self, path=''):
 		return xbmc.translatePath('%s/%s' % (self.__datapath__, path))
-
+	
+	def get_id(self):
+		return self.__id__
+	
 	def get_name(self):
 		return self.__name__
 

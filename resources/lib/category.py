@@ -11,7 +11,7 @@ try:
 except ImportError:
 	pass # for PC debugging
 
-__addonid__ = 'plugin.video.abc_iview'
+__addonid__ = 'plugin.video.abciview'
 __settings__ = settings.Settings(__addonid__, sys.argv)
 __fanart__ = __settings__.get_path('fanart.png')
 

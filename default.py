@@ -1,7 +1,25 @@
-'''
-	Plugin for streaming content from ABC's iView
-'''
-import os, sys, xbmcplugin, xbmcgui
+#/*
+# *
+# * ABC iView: TuneIn add-on for XBMC.
+# *
+# * Copyright (C) 2012 Brian Hornsby
+# *
+# * This program is free software: you can redistribute it and/or modify
+# * it under the terms of the GNU General Public License as published by
+# * the Free Software Foundation, either version 3 of the License, or
+# * (at your option) any later version.
+# *
+# * This program is distributed in the hope that it will be useful,
+# * but WITHOUT ANY WARRANTY; without even the implied warranty of
+# * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# * GNU General Public License for more details.
+# *	
+# * You should have received a copy of the GNU General Public License
+# * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# *
+# */
+
+import sys, xbmcplugin, xbmcgui
 
 import resources.lib.utils as utils
 import resources.lib.series as series
@@ -15,10 +33,10 @@ import resources.lib.xbmcsettings as settings
 __plugin__  = 'ABC iView'
 __author__  = 'Andy Botting, Brian Hornsby'
 __credits__ = 'Team XBMC, Jeremy Visser, Noisymime'
-__addonid__ = 'plugin.video.abc_iview'
+__addonid__ = 'plugin.video.abciview'
 __settings__ = settings.Settings(__addonid__, sys.argv)
 __version__ = __settings__.get_version()
-__fanart__ = os.path.join(__settings__.get_path(),'fanart.png')
+__fanart__ = __settings__.get_path('fanart.png')
 xbmcplugin.setPluginFanart(int(__settings__.get_argv(1)), __fanart__)
 
 print '[PLUGIN] %s: version %s initialized!' % (__plugin__, __version__)

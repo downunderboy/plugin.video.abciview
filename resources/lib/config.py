@@ -1,7 +1,7 @@
 import os
 
 version = '1.0.0'
-api_version = 374
+api_version = 383
 
 # os.uname() is not available on Windows, so we make this optional.
 try:

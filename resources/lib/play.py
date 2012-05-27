@@ -20,7 +20,11 @@ def play(url):
 	try:
 		# Playpath shoud look like this:
 		# 	Akamai: mp4:flash/playback/_definst_/itcrowd_10_03_02
-		playpath = auth['playpath_prefix'] + p.url
+		if 'playpath_prefix' in auth and len(auth['playpath_prefix']) > 0:
+			prefix = auth['playpath_prefix']
+		else:
+			prefix = 'flash/playback/_definst_/'
+		playpath = prefix + p.url		
 		if playpath.split('.')[-1] == 'mp4':
 			playpath = 'mp4:' + playpath
 	

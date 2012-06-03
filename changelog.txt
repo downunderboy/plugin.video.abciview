@@ -1,3 +1,6 @@
+*** 0.0.4 ***
+Fixed issue with series not showing programs.
+
 *** 0.0.3 ***
 
 Quick fix for playpath prefix not being returned.

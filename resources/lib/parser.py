@@ -139,89 +139,65 @@ def parse_series(soup):
 	series_xml = BeautifulStoneSoup(soup)
 
 	return series_xml
-
-def parse_series_info(soup, series):
-	""" This function parses the series list, which lists the
-		the individual progams available. The items are things
-		like 'beached az Episode 8' and 'beached az Episode 9'.
-	"""
-
-	series_xml = parse_series(soup)
-
-	series.thumbnail = series_xml.find('image').find('url').string
-	series.description = series_xml.find('description').string
-
-	return series
 	
-
 
 def parse_series_items(soup):
 	""" This function parses the series list, which lists the
 		the individual programs available. The items are things
 		like 'beached az Episode 8' and 'beached az Episode 9'.
 	"""
-
-	series_xml = parse_series(soup)
-
 	program_list = []
-	index = series_xml.findAll('item')
+	series = {}
+	index = json.loads(soup)
 	
-	for program in index:
+	if index and len(index) == 1 and 'f' in index[0]:
+		series = index[0]
+	for program in series['f']:
 		new_program = classes.Program()
 		
 		try:
-			new_program.title = program.find('title').string
+			new_program.title = program['b']
 		except:
 			print "@@@ No title entry found!"
 		
 		try:
-			new_program.episode_title = program.find('shorttitle').string
-		except:
-			print "@@@ No shorttitle entry found!"
-		
-		try:
-			new_program.description = program.find('description').string
+			new_program.description = program['d']
 		except:
 			print "@@@ No description entry found!"
 
 		try:
-			new_program.category = program.find('category').string
+			new_program.category = program['e']
 		except:
 			print "@@@ No category entry found!"
-
+		
 		try:
-			new_program.url = program.find('videoasset').string
+			new_program.url = program['n']
 		except:
 			print "@@@ No url entry found!"
 
 		try:
-			new_program.rating = program.find('rating').string
+			new_program.rating = program['m']
 		except:
 			print "@@@ No rating entry found!"
 
-		try:
-			new_program.duration = program.find('content').get('duration')
-		except:
-			print "@@@ No duration entry found!"
-
 		# Python 2.4 hack - time module has strptime, but datetime does not until Python 2.5
 		try:
-			temp_date = program.find('pubdate').string
-			timestamp = time.mktime(time.strptime(temp_date, '%d/%m/%Y %H:%M:%S'))
+			new_program.date = program['f']
+			temp_date = program['f']
+			timestamp = time.mktime(time.strptime(temp_date, '%Y-%m-%d %H:%M:%S'))
 			new_program.date = datetime.date.fromtimestamp(timestamp)
 		except:
 			print "@@@ No pubdate entry found!"
 	
 		# Check for a thumbnail
 		try:
-			if program.find('thumbnail').has_key('url'):
-				new_program.thumbnail = program.find('thumbnail').get('url')
+			new_program.thumbnail = program['s']
 		except:
 			print "@@@ No thumbnail entry found!"
 
 		#print "Found program: %s" % new_program
 		program_list.append(new_program)
-
+			
 	return program_list
 
 

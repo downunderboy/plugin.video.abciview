@@ -17,8 +17,7 @@ def make_list(url):
 	pDialog.create('ABC iView', 'Getting Episode List')
 	pDialog.update(50)
 
-	programs = get_programs(params["series_id"])
-	# fill media list
+	programs = get_programs(params['series_id'])
 	ok = fill_media_list(programs)
 
 	# send notification we're finished, successfully or unsuccessfully

@@ -105,7 +105,11 @@ class Program(object):
 		""" Return the show title with the 'Series X Episode X' or 'XX/XX/XX' part stripped
 			off.
 		"""
-		title = re.search('^(?P<title>.*) (?:Series \d+ Episode \d+|\d\d/\d\d/\d\d)', self.get_title())
+		title = re.search('^(?P<title>.*) (?:Series \d+ Episode \d+|\d\d/\d\d/\d\d) (?P<extra>.*)', self.get_title())
+		if title is None:
+			title = re.search('^(?P<title>.*) (?:Series \d+ Episode \d+|\d\d/\d\d/\d\d)', self.get_title())
+		else:
+			return utils.descape(title.group('title') + ': ' + title.group('extra'))
 		if title is None:
 			return self.get_title()
 		return utils.descape(title.group('title'))
@@ -207,7 +211,6 @@ class Program(object):
 						'episode': self.get_episode(),
 						'mpaa': self.get_rating(),
 					}
-
 		return info_dict
 
 	def make_xbmc_url(self):

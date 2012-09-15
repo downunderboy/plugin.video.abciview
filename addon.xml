@@ -2,7 +2,7 @@
 <addon
   id="plugin.video.abciview"
   name="ABC iView"
-  version="0.0.4"
+  version="0.0.5"
   provider-name="Andy Botting, Brian Hornsby">
   <requires>
     <import addon="xbmc.python" version="2.0"/>
